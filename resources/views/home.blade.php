@@ -81,6 +81,32 @@
     </div>
 </section>
 
+<!-- Video Section -->
+@if($videoSection)
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {{ $videoSection->title }}
+            </h2>
+        </div>
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="relative w-full" style="padding-bottom: 56.25%;">
+                <iframe 
+                    class="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                    src="{{ $videoSection->embed_url }}"
+                    title="{{ $videoSection->title }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
 <!-- What Profit Pocket Offers Section -->
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -144,7 +170,81 @@
     </div>
 </section>
 
-
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                آراء عملائنا
+            </h2>
+            <p class="text-xl text-gray-600">
+                ما يقوله عملاؤنا عن خدماتنا
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <span class="text-primary-600 font-bold text-lg">أ</span>
+                    </div>
+                    <div class="mr-3">
+                        <h4 class="font-semibold text-gray-900">أحمد محمد</h4>
+                        <p class="text-sm text-gray-600">مستثمر</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                    "خدمة ممتازة وتوصيات دقيقة ساعدتني في تحقيق أرباح جيدة"
+                </p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <span class="text-primary-600 font-bold text-lg">ف</span>
+                    </div>
+                    <div class="mr-3">
+                        <h4 class="font-semibold text-gray-900">فاطمة علي</h4>
+                        <p class="text-sm text-gray-600">متداولة</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                    "التحليلات الفنية متقدمة جداً والنتائج مذهلة"
+                </p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <span class="text-primary-600 font-bold text-lg">م</span>
+                    </div>
+                    <div class="mr-3">
+                        <h4 class="font-semibold text-gray-900">محمد السعيد</h4>
+                        <p class="text-sm text-gray-600">مستثمر</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                    "فريق الخبراء محترف جداً والتوصيات موثوقة"
+                </p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <span class="text-primary-600 font-bold text-lg">س</span>
+                    </div>
+                    <div class="mr-3">
+                        <h4 class="font-semibold text-gray-900">سارة أحمد</h4>
+                        <p class="text-sm text-gray-600">متداولة</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                    "منصة رائعة وسهلة الاستخدام مع نتائج ممتازة"
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- CTA Section -->
 <section class="py-20 bg-primary-600 text-white">
@@ -162,4 +262,156 @@
         </div>
     </div>
 </section>
+
+@push('styles')
+<style>
+.testimonials-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.testimonials-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 300%;
+}
+
+.testimonial-slide {
+    width: 33.333%;
+    flex-shrink: 0;
+    padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+    .testimonial-slide {
+        padding: 0 0.5rem;
+    }
+}
+
+/* Ensure navigation buttons are visible */
+#prevBtn, #nextBtn {
+    z-index: 20;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+    background: #f9fafb;
+    transform: scale(1.05);
+}
+
+/* Dot indicators */
+[data-slide] {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+[data-slide]:hover {
+    transform: scale(1.2);
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('testimonialsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('[data-slide]');
+    
+    if (!container || !prevBtn || !nextBtn) {
+        console.error('Slider elements not found');
+        return;
+    }
+    
+    let currentSlide = 0;
+    const totalSlides = 3; // Number of testimonials
+    
+    function updateSlider() {
+        // Calculate the translateX value (each slide is 33.333% of the container width)
+        const translateX = -currentSlide * (100 / totalSlides);
+        container.style.transform = `translateX(${translateX}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            if (index === currentSlide) {
+                dot.classList.remove('bg-gray-300', 'hover:bg-gray-400');
+                dot.classList.add('bg-primary-600');
+            } else {
+                dot.classList.remove('bg-primary-600');
+                dot.classList.add('bg-gray-300', 'hover:bg-gray-400');
+            }
+        });
+        
+        console.log(`Slide ${currentSlide + 1} of ${totalSlides}, translateX: ${translateX}%`);
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlider();
+    }
+    
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+    
+    function goToSlide(slideIndex) {
+        if (slideIndex >= 0 && slideIndex < totalSlides) {
+            currentSlide = slideIndex;
+            updateSlider();
+        }
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        nextSlide();
+    });
+    
+    prevBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        prevSlide();
+    });
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function(e) {
+            e.preventDefault();
+            goToSlide(index);
+        });
+    });
+    
+    // Auto-play functionality
+    let autoPlayInterval = setInterval(nextSlide, 5000);
+    
+    // Pause auto-play on hover
+    const slider = document.querySelector('.testimonials-slider');
+    if (slider) {
+        slider.addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+        
+        slider.addEventListener('mouseleave', () => {
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        });
+    }
+    
+    // Initialize
+    updateSlider();
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        }
+    });
+});
+</script>
+@endpush
 @endsection

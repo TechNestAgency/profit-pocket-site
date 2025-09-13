@@ -10,6 +10,7 @@ use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\TechnicalIndicatorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ExpertController;
+use App\Http\Controllers\VideoSectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,4 +98,12 @@ Route::prefix('admin')->name('dashboard.')->group(function () {
     Route::get('/experts/{id}/edit', [ExpertController::class, 'edit'])->name('experts.edit');
     Route::put('/experts/{id}', [ExpertController::class, 'update'])->name('experts.update');
     Route::delete('/experts/{id}', [ExpertController::class, 'destroy'])->name('experts.destroy');
+    
+    // Video Section Management
+    Route::get('/video-section', [VideoSectionController::class, 'index'])->name('video-section.index');
+    Route::get('/video-section/create', [VideoSectionController::class, 'create'])->name('video-section.create');
+    Route::post('/video-section', [VideoSectionController::class, 'store'])->name('video-section.store');
+    Route::get('/video-section/{id}/edit', [VideoSectionController::class, 'edit'])->name('video-section.edit');
+    Route::put('/video-section/{id}', [VideoSectionController::class, 'update'])->name('video-section.update');
+    Route::delete('/video-section/{id}', [VideoSectionController::class, 'destroy'])->name('video-section.destroy');
 });

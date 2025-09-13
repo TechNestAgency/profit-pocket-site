@@ -129,6 +129,16 @@
                         <span class="mr-3">إدارة الخدمات</span>
                     </a>
                     
+                    <a href="{{ route('dashboard.video-section.index') }}" 
+                       class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 {{ request()->routeIs('dashboard.video-section.*') ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard.video-section.*') ? 'bg-white/20' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-colors duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="mr-3">قسم الفيديو</span>
+                    </a>
+                    
                     <a href="{{ route('dashboard.experts.index') }}" 
                        class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 {{ request()->routeIs('dashboard.experts.*') ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
                         <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard.experts.*') ? 'bg-white/20' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-colors duration-300">
