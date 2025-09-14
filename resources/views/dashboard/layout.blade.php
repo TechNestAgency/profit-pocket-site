@@ -180,26 +180,7 @@
                         </div>
                     </div>
                     
-                    <div class="flex items-center space-x-reverse space-x-6">
-                        <!-- Notifications -->
-                        <button class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-6H4v6zM4 5h6V1H4v4zM15 7h5l-5-5v5z"></path>
-                            </svg>
-                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-                        </button>
-                        
-                        <!-- User Profile -->
-                        <div class="flex items-center space-x-3">
-                            <div class="text-right">
-                                <p class="text-sm font-medium text-gray-900">{{ session('admin_email') }}</p>
-                                <p class="text-xs text-gray-500">مدير النظام</p>
-                            </div>
-                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                                <span class="text-white font-semibold text-sm">{{ substr(session('admin_email'), 0, 1) }}</span>
-                            </div>
-                        </div>
-                        
+                    <div class="flex items-center">
                         <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
@@ -302,5 +283,7 @@
             }
         });
     </script>
+    
+    @stack('scripts')
 </body>
 </html>

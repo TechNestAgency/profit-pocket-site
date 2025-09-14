@@ -79,57 +79,6 @@
     </section>
 @endif
 
-<!-- Related Recommendations -->
-<section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">توصيات أخرى</h2>
-        
-        @php
-            $relatedRecommendations = \App\Models\Recommendation::active()
-                ->published()
-                ->where('id', '!=', $recommendation->id)
-                ->latest('published_at')
-                ->limit(3)
-                ->get();
-        @endphp
-        
-        @if($relatedRecommendations->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                @foreach($relatedRecommendations as $related)
-                    <div class="bg-gray-50 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        @if($related->category_image)
-                            <div class="h-48 overflow-hidden">
-                                <img src="{{ asset('storage/' . $related->category_image) }}" 
-                                     alt="{{ $related->title }}" 
-                                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                            </div>
-                        @endif
-                        
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-3 line-clamp-2">
-                                {{ $related->title }}
-                            </h3>
-                            
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-gray-500">
-                                    @if($related->published_at)
-                                        {{ $related->published_at->format('Y-m-d') }}
-                                    @endif
-                                </div>
-                                
-                                <a href="{{ route('recommendations.show', $related->id) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 transition-colors">
-                                    اقرأ المزيد
-                                    <i class="fas fa-arrow-left mr-2"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
-</section>
 
 <!-- Image Modal -->
 <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4">

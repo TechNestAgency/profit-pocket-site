@@ -58,7 +58,7 @@ class DashboardController extends Controller
             'telegram_url' => 'nullable|url|max:255',
             'snapchat_url' => 'nullable|url|max:255',
             'youtube_url' => 'nullable|url|max:255',
-            'linkedin_url' => 'nullable|url|max:255',
+            'twitter_url' => 'nullable|url|max:255',
         ]);
 
         Setting::setGroup('general', $request->only([
@@ -66,7 +66,7 @@ class DashboardController extends Controller
         ]));
 
         Setting::setGroup('social', $request->only([
-            'facebook_url', 'telegram_url', 'snapchat_url', 'youtube_url', 'linkedin_url'
+            'facebook_url', 'telegram_url', 'snapchat_url', 'youtube_url', 'twitter_url'
         ]));
 
         return redirect()->back()->with('success', 'تم حفظ الإعدادات بنجاح.');

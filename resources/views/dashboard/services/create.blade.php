@@ -57,21 +57,35 @@
         <!-- Image -->
         <div class="mb-6">
             <label for="image" class="block text-sm font-medium text-gray-700 mb-2">صورة الخدمة</label>
-            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors duration-200">
+            
+            <!-- Image Preview -->
+            <div id="image-preview" class="mb-4 hidden">
+                <div class="relative inline-block">
+                    <img id="preview-img" src="" alt="معاينة الصورة" class="w-32 h-32 object-cover rounded-lg border border-gray-200">
+                    <button type="button" id="remove-image" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors" title="إزالة الصورة">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">معاينة الصورة المحددة</p>
+            </div>
+            
+            <label for="image" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors duration-200 cursor-pointer">
                 <div class="space-y-1 text-center">
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <div class="flex text-sm text-gray-600">
-                        <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                            <span>ارفع صورة</span>
-                            <input id="image" name="image" type="file" class="sr-only" accept="image/*">
-                        </label>
+                        <span class="relative bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
+                            ارفع صورة
+                        </span>
                         <p class="pr-1">أو اسحب وأفلت</p>
                     </div>
                     <p class="text-xs text-gray-500">PNG, JPG, GIF حتى 2MB</p>
                 </div>
-            </div>
+                <input id="image" name="image" type="file" class="sr-only" accept="image/*">
+            </label>
             @error('image')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -123,16 +137,45 @@
 </div>
 
 <script>
-// Image preview functionality
-document.getElementById('image').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // Add image preview logic here if needed
-        };
-        reader.readAsDataURL(file);
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
+    const removeImageBtn = document.getElementById('remove-image');
+
+    // Image preview functionality
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('يرجى اختيار ملف صورة صحيح');
+                this.value = '';
+                return;
+            }
+
+            // Validate file size (2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('حجم الصورة يجب أن يكون أقل من 2MB');
+                this.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                imagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Remove image functionality
+    removeImageBtn.addEventListener('click', function() {
+        imageInput.value = '';
+        imagePreview.classList.add('hidden');
+        previewImg.src = '';
+    });
 });
 </script>
 @endsection

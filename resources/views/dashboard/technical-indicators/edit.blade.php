@@ -77,21 +77,35 @@
                 <label for="category_image" class="block text-sm font-medium text-gray-700 mb-2">
                     {{ $technicalIndicator->category_image ? 'استبدال صورة الفئة' : 'صورة الفئة' }}
                 </label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                
+                <!-- New Category Image Preview -->
+                <div id="new-category-image-preview" class="mb-4 hidden">
+                    <div class="relative inline-block">
+                        <img id="new-category-preview-img" src="" alt="معاينة الصورة الجديدة" class="w-32 h-32 object-cover rounded-lg border border-gray-200">
+                        <button type="button" id="remove-new-category-image" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors" title="إزالة الصورة">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">معاينة الصورة الجديدة</p>
+                </div>
+                
+                <label for="category_image" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors cursor-pointer">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <div class="flex text-sm text-gray-600">
-                            <label for="category_image" class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-600">
-                                <span>اختر صورة</span>
-                                <input id="category_image" name="category_image" type="file" class="sr-only" accept="image/*">
-                            </label>
+                            <span class="relative bg-white rounded-md font-medium text-primary-600 hover:text-primary-500">
+                                اختر صورة
+                            </span>
                             <p class="pr-1">أو اسحب وأفلت</p>
                         </div>
                         <p class="text-xs text-gray-500">PNG, JPG, GIF حتى 2MB</p>
                     </div>
-                </div>
+                    <input id="category_image" name="category_image" type="file" class="sr-only" accept="image/*">
+                </label>
                 @error('category_image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -192,8 +206,15 @@
 
 @push('scripts')
 <script>
-    function addVideoInput() {
+    // Make functions globally available
+    window.addVideoInput = function() {
+        console.log('addVideoInput called'); // Debug log
         const container = document.getElementById('videos-container');
+        if (!container) {
+            console.error('videos-container not found');
+            return;
+        }
+        
         const newInput = document.createElement('div');
         newInput.className = 'video-input-group mb-3';
         newInput.innerHTML = `
@@ -202,7 +223,7 @@
                        name="videos[]" 
                        placeholder="https://www.youtube.com/watch?v=..." 
                        class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent">
-                <button type="button" onclick="removeVideoInput(this)" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                <button type="button" onclick="removeVideoInput(this)" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors" title="حذف هذا الرابط">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -210,25 +231,114 @@
             </div>
         `;
         container.appendChild(newInput);
-    }
+        
+        // Focus on the new input
+        const newInputField = newInput.querySelector('input');
+        if (newInputField) {
+            newInputField.focus();
+        }
+        
+        console.log('New video input added'); // Debug log
+    };
 
-    function removeVideoInput(button) {
+    window.removeVideoInput = function(button) {
+        console.log('removeVideoInput called'); // Debug log
         const container = document.getElementById('videos-container');
+        const videoGroup = button.closest('.video-input-group');
+        
+        if (!container || !videoGroup) {
+            console.error('Container or video group not found');
+            return;
+        }
+        
         if (container.children.length > 1) {
-            button.closest('.video-input-group').remove();
+            videoGroup.remove();
+            console.log('Video input removed');
+        } else {
+            // If it's the last input, just clear it instead of removing
+            const input = videoGroup.querySelector('input');
+            if (input) {
+                input.value = '';
+                input.focus();
+            }
+            console.log('Last input cleared');
         }
-    }
+    };
 
-    // Preview uploaded image
-    document.getElementById('category_image').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                console.log('Category image selected:', file.name);
-            };
-            reader.readAsDataURL(file);
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing video inputs'); // Debug log
+        
+        // Preview uploaded image
+        const categoryImageInput = document.getElementById('category_image');
+        const categoryImagePreview = document.getElementById('new-category-image-preview');
+        const categoryPreviewImg = document.getElementById('new-category-preview-img');
+        const removeCategoryImageBtn = document.getElementById('remove-new-category-image');
+        
+        if (categoryImageInput) {
+            categoryImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Validate file type
+                    if (!file.type.startsWith('image/')) {
+                        alert('يرجى اختيار ملف صورة صحيح');
+                        this.value = '';
+                        return;
+                    }
+
+                    // Validate file size (2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('حجم الصورة يجب أن يكون أقل من 2MB');
+                        this.value = '';
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        categoryPreviewImg.src = e.target.result;
+                        categoryImagePreview.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         }
+
+        // Remove category image functionality
+        if (removeCategoryImageBtn) {
+            removeCategoryImageBtn.addEventListener('click', function() {
+                categoryImageInput.value = '';
+                categoryImagePreview.classList.add('hidden');
+                categoryPreviewImg.src = '';
+            });
+        }
+
+        // Add YouTube URL validation to existing inputs
+        const videoInputs = document.querySelectorAll('input[name="videos[]"]');
+        videoInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                const url = this.value.trim();
+                if (url && !isValidYouTubeUrl(url)) {
+                    this.classList.add('border-red-500');
+                    if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                        const errorMsg = document.createElement('p');
+                        errorMsg.className = 'error-message text-sm text-red-600 mt-1';
+                        errorMsg.textContent = 'يرجى إدخال رابط يوتيوب صحيح';
+                        this.parentNode.appendChild(errorMsg);
+                    }
+                } else {
+                    this.classList.remove('border-red-500');
+                    const errorMsg = this.parentNode.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                }
+            });
+        });
     });
+
+    function isValidYouTubeUrl(url) {
+        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/)|youtu\.be\/)[\w-]+/;
+        return youtubeRegex.test(url);
+    }
 </script>
 @endpush

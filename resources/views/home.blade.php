@@ -15,7 +15,7 @@
                 منصة التداول والاستثمار الرائدة في المنطقة العربية
             </p>
             <p class="text-lg mb-10 text-primary-200 max-w-3xl mx-auto">
-                منصة التداول والاستثمار الرائدة في المنطقة العربية
+            رؤيتك للسوق مستقبل ارباحك
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('about') }}" class="btn-primary bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 text-lg">
