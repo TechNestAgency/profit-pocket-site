@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TechnicalIndicator;
-use Illuminate\Support\Facades\Storage;
 
 class TechnicalIndicatorController extends Controller
 {
@@ -55,7 +54,10 @@ class TechnicalIndicatorController extends Controller
 
         // Handle category image upload
         if ($request->hasFile('category_image')) {
-            $data['category_image'] = $request->file('category_image')->store('technical-indicators', 'public');
+            $image = $request->file('category_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/technical-indicators'), $imageName);
+            $data['category_image'] = 'images/technical-indicators/' . $imageName;
         }
 
         // Handle videos
@@ -96,9 +98,15 @@ class TechnicalIndicatorController extends Controller
         if ($request->hasFile('category_image')) {
             // Delete old image
             if ($technicalIndicator->category_image) {
-                Storage::disk('public')->delete($technicalIndicator->category_image);
+                $oldImagePath = public_path($technicalIndicator->category_image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-            $data['category_image'] = $request->file('category_image')->store('technical-indicators', 'public');
+            $image = $request->file('category_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/technical-indicators'), $imageName);
+            $data['category_image'] = 'images/technical-indicators/' . $imageName;
         }
 
         // Handle videos
@@ -119,7 +127,10 @@ class TechnicalIndicatorController extends Controller
 
         // Delete image
         if ($technicalIndicator->category_image) {
-            Storage::disk('public')->delete($technicalIndicator->category_image);
+            $imagePath = public_path($technicalIndicator->category_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $technicalIndicator->delete();

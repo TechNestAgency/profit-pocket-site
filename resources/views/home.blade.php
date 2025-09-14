@@ -124,7 +124,7 @@
                 <div class="card card-hover text-center">
                     <div class="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 overflow-hidden">
                         @if($service->image)
-                            <img src="{{ asset('storage/' . $service->image) }}" 
+                            <img src="{{ asset($service->image) }}" 
                                  alt="{{ $service->title }}" 
                                  class="w-full h-full object-cover">
                         @else

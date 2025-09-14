@@ -66,7 +66,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($recommendation->category_image)
-                                        <img src="{{ asset('storage/' . $recommendation->category_image) }}" 
+                                        <img src="{{ asset($recommendation->category_image) }}" 
                                              alt="{{ $recommendation->title }}" 
                                              class="h-12 w-12 rounded-lg object-cover">
                                     @else

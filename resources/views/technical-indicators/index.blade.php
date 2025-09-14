@@ -25,7 +25,7 @@
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         @if($indicator->category_image)
                             <div class="h-48 overflow-hidden">
-                                <img src="{{ asset('storage/' . $indicator->category_image) }}" 
+                                <img src="{{ asset($indicator->category_image) }}" 
                                      alt="{{ $indicator->title }}" 
                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>

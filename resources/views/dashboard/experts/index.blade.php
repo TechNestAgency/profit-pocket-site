@@ -49,7 +49,7 @@
                             <div class="flex items-center">
                                 @if($expert->image)
                                     <div class="flex-shrink-0 h-12 w-12">
-                                        <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset('storage/' . $expert->image) }}" alt="{{ $expert->title }}">
+                                        <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset($expert->image) }}" alt="{{ $expert->title }}">
                                     </div>
                                 @else
                                     <div class="flex-shrink-0 h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center">

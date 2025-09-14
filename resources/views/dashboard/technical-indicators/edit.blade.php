@@ -61,7 +61,7 @@
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">الصورة الحالية</label>
                     <div class="flex items-center space-x-reverse space-x-4">
-                        <img src="{{ asset('storage/' . $technicalIndicator->category_image) }}" 
+                        <img src="{{ asset($technicalIndicator->category_image) }}" 
                              alt="{{ $technicalIndicator->title }}" 
                              class="h-20 w-20 rounded-lg object-cover">
                         <div>

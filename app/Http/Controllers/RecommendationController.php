@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
-use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
 {
@@ -54,14 +53,19 @@ class RecommendationController extends Controller
 
         // Handle category image upload
         if ($request->hasFile('category_image')) {
-            $data['category_image'] = $request->file('category_image')->store('recommendations', 'public');
+            $image = $request->file('category_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/recommendations'), $imageName);
+            $data['category_image'] = 'images/recommendations/' . $imageName;
         }
 
         // Handle multiple images upload
         if ($request->hasFile('images')) {
             $images = [];
             foreach ($request->file('images') as $image) {
-                $images[] = $image->store('recommendations/images', 'public');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/recommendations/images'), $imageName);
+                $images[] = 'images/recommendations/images/' . $imageName;
             }
             $data['images'] = $images;
         }
@@ -97,9 +101,15 @@ class RecommendationController extends Controller
         if ($request->hasFile('category_image')) {
             // Delete old image
             if ($recommendation->category_image) {
-                Storage::disk('public')->delete($recommendation->category_image);
+                $oldImagePath = public_path($recommendation->category_image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-            $data['category_image'] = $request->file('category_image')->store('recommendations', 'public');
+            $image = $request->file('category_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/recommendations'), $imageName);
+            $data['category_image'] = 'images/recommendations/' . $imageName;
         }
 
         // Handle multiple images upload
@@ -107,12 +117,17 @@ class RecommendationController extends Controller
             // Delete old images
             if ($recommendation->images) {
                 foreach ($recommendation->images as $image) {
-                    Storage::disk('public')->delete($image);
+                    $oldImagePath = public_path($image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
                 }
             }
             $images = [];
             foreach ($request->file('images') as $image) {
-                $images[] = $image->store('recommendations/images', 'public');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/recommendations/images'), $imageName);
+                $images[] = 'images/recommendations/images/' . $imageName;
             }
             $data['images'] = $images;
         }
@@ -129,11 +144,17 @@ class RecommendationController extends Controller
 
         // Delete images
         if ($recommendation->category_image) {
-            Storage::disk('public')->delete($recommendation->category_image);
+            $imagePath = public_path($recommendation->category_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
         if ($recommendation->images) {
             foreach ($recommendation->images as $image) {
-                Storage::disk('public')->delete($image);
+                $imagePath = public_path($image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
             }
         }
 

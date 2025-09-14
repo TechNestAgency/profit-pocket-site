@@ -98,10 +98,12 @@
                 
                 <!-- Multiple Images Preview -->
                 <div id="multiple-images-preview" class="mb-4 hidden">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="images-preview-grid">
-                        <!-- Preview images will be added here -->
+                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3" id="images-preview-grid">
+                            <!-- Preview images will be added here -->
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3 text-center">معاينة الصور المحددة (<span id="image-count">0</span> صورة)</p>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2">معاينة الصور المحددة</p>
                 </div>
                 
                 <label for="images" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors cursor-pointer">
@@ -210,44 +212,88 @@ document.addEventListener('DOMContentLoaded', function() {
         categoryPreviewImg.src = '';
     });
 
-    // Multiple Images Preview
+    // Multiple Images Preview - Enhanced version
     const multipleImagesInput = document.getElementById('images');
     const multipleImagesPreview = document.getElementById('multiple-images-preview');
     const imagesPreviewGrid = document.getElementById('images-preview-grid');
+    
+    // Store selected files globally for proper management
+    let selectedFiles = [];
 
     multipleImagesInput.addEventListener('change', function(e) {
-        const files = Array.from(e.target.files);
+        const newFiles = Array.from(e.target.files);
         
+        // Validate all files first
+        const validFiles = [];
+        for (let i = 0; i < newFiles.length; i++) {
+            const file = newFiles[i];
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert(`الملف ${file.name} ليس صورة صحيحة`);
+                continue;
+            }
+
+            // Validate file size (2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert(`حجم الصورة ${file.name} يجب أن يكون أقل من 2MB`);
+                continue;
+            }
+            
+            validFiles.push(file);
+        }
+        
+        // Add valid files to selected files
+        selectedFiles = [...selectedFiles, ...validFiles];
+        
+        // Update the file input with all selected files
+        updateFileInput();
+        
+        // Update preview
+        updatePreview();
+    });
+
+    function updateFileInput() {
+        // Create a new DataTransfer object
+        const dataTransfer = new DataTransfer();
+        
+        // Add all selected files to the DataTransfer object
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        
+        // Update the file input
+        multipleImagesInput.files = dataTransfer.files;
+    }
+
+    function updatePreview() {
         // Clear previous previews
         imagesPreviewGrid.innerHTML = '';
         
-        if (files.length > 0) {
+        // Update image count
+        const imageCountElement = document.getElementById('image-count');
+        if (imageCountElement) {
+            imageCountElement.textContent = selectedFiles.length;
+        }
+        
+        if (selectedFiles.length > 0) {
             multipleImagesPreview.classList.remove('hidden');
             
-            files.forEach((file, index) => {
-                // Validate file type
-                if (!file.type.startsWith('image/')) {
-                    alert(`الملف ${file.name} ليس صورة صحيحة`);
-                    return;
-                }
-
-                // Validate file size (2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert(`حجم الصورة ${file.name} يجب أن يكون أقل من 2MB`);
-                    return;
-                }
-
+            selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const previewDiv = document.createElement('div');
-                    previewDiv.className = 'relative';
+                    previewDiv.className = 'relative group bg-white rounded-lg overflow-hidden shadow-sm';
                     previewDiv.innerHTML = `
-                        <img src="${e.target.result}" alt="معاينة الصورة ${index + 1}" class="w-full h-24 object-cover rounded-lg border border-gray-200">
-                        <button type="button" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition-colors remove-preview-image" title="إزالة هذه الصورة" data-index="${index}">
+                        <img src="${e.target.result}" alt="معاينة الصورة ${index + 1}" class="w-full h-20 object-cover transition-transform group-hover:scale-105">
+                        <button type="button" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition-all duration-200 shadow-lg remove-preview-image" title="إزالة هذه الصورة" data-index="${index}">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
+                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white text-xs p-1 opacity-0 group-hover:opacity-100 transition-opacity truncate">
+                            ${file.name}
+                        </div>
                     `;
                     imagesPreviewGrid.appendChild(previewDiv);
                 };
@@ -256,23 +302,86 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             multipleImagesPreview.classList.add('hidden');
         }
-    });
+    }
 
     // Remove individual preview images
     imagesPreviewGrid.addEventListener('click', function(e) {
         if (e.target.closest('.remove-preview-image')) {
             const button = e.target.closest('.remove-preview-image');
             const index = parseInt(button.dataset.index);
-            const previewDiv = button.closest('.relative');
-            previewDiv.remove();
             
-            // If no previews left, hide the preview container
-            if (imagesPreviewGrid.children.length === 0) {
-                multipleImagesPreview.classList.add('hidden');
-                multipleImagesInput.value = '';
-            }
+            // Remove file from selectedFiles array
+            selectedFiles.splice(index, 1);
+            
+            // Update file input
+            updateFileInput();
+            
+            // Update preview
+            updatePreview();
         }
     });
+
+    // Add drag and drop functionality
+    const dropZone = multipleImagesInput.closest('label');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        dropZone.classList.add('border-blue-400', 'bg-blue-50');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = Array.from(dt.files);
+        
+        // Filter only image files
+        const imageFiles = files.filter(file => file.type.startsWith('image/'));
+        
+        if (imageFiles.length > 0) {
+            // Validate files
+            const validFiles = [];
+            for (let i = 0; i < imageFiles.length; i++) {
+                const file = imageFiles[i];
+                
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`حجم الصورة ${file.name} يجب أن يكون أقل من 2MB`);
+                    continue;
+                }
+                
+                validFiles.push(file);
+            }
+            
+            // Add valid files to selected files
+            selectedFiles = [...selectedFiles, ...validFiles];
+            
+            // Update the file input
+            updateFileInput();
+            
+            // Update preview
+            updatePreview();
+        }
+    }
 });
 </script>
 @endpush

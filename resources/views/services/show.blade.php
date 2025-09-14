@@ -8,7 +8,7 @@
 <section class="relative bg-primary-600 text-white py-20">
     @if($service->image)
         <div class="absolute inset-0 overflow-hidden">
-            <img src="{{ asset('storage/' . $service->image) }}" 
+            <img src="{{ asset($service->image) }}" 
                  alt="{{ $service->title }}" 
                  class="w-full h-full object-cover opacity-20">
         </div>
@@ -51,7 +51,7 @@
             <div class="order-2 lg:order-1">
                 @if($service->image)
                     <div class="rounded-lg overflow-hidden shadow-xl">
-                        <img src="{{ asset('storage/' . $service->image) }}" 
+                        <img src="{{ asset($service->image) }}" 
                              alt="{{ $service->title }}" 
                              class="w-full h-auto">
                     </div>

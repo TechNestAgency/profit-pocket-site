@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -46,8 +45,10 @@ class ServiceController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('services', 'public');
-            $data['image'] = $imagePath;
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/services'), $imageName);
+            $data['image'] = 'images/services/' . $imageName;
         }
 
         Service::create($data);
@@ -79,11 +80,16 @@ class ServiceController extends Controller
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($service->image) {
-                Storage::disk('public')->delete($service->image);
+                $oldImagePath = public_path($service->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
             
-            $imagePath = $request->file('image')->store('services', 'public');
-            $data['image'] = $imagePath;
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/services'), $imageName);
+            $data['image'] = 'images/services/' . $imageName;
         }
 
         $service->update($data);
@@ -97,7 +103,10 @@ class ServiceController extends Controller
         
         // Delete image if exists
         if ($service->image) {
-            Storage::disk('public')->delete($service->image);
+            $imagePath = public_path($service->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
         
         $service->delete();

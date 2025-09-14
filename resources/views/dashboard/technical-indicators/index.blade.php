@@ -69,7 +69,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($indicator->category_image)
-                                        <img src="{{ asset('storage/' . $indicator->category_image) }}" 
+                                        <img src="{{ asset($indicator->category_image) }}" 
                                              alt="{{ $indicator->title }}" 
                                              class="h-12 w-12 rounded-lg object-cover">
                                     @else

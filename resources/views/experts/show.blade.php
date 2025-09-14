@@ -8,7 +8,7 @@
 <section class="relative bg-primary-600 text-white py-20">
     @if($expert->image)
         <div class="absolute inset-0 overflow-hidden">
-            <img src="{{ asset('storage/' . $expert->image) }}" 
+            <img src="{{ asset($expert->image) }}" 
                  alt="{{ $expert->title }}" 
                  class="w-full h-full object-cover opacity-20">
         </div>
@@ -51,7 +51,7 @@
             <div class="order-2 lg:order-1">
                 @if($expert->image)
                     <div class="rounded-lg overflow-hidden shadow-xl">
-                        <img src="{{ asset('storage/' . $expert->image) }}" 
+                        <img src="{{ asset($expert->image) }}" 
                              alt="{{ $expert->title }}" 
                              class="w-full h-auto">
                     </div>

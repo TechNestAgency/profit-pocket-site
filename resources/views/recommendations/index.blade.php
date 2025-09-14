@@ -25,7 +25,7 @@
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         @if($recommendation->category_image)
                             <div class="h-48 overflow-hidden">
-                                <img src="{{ asset('storage/' . $recommendation->category_image) }}" 
+                                <img src="{{ asset($recommendation->category_image) }}" 
                                      alt="{{ $recommendation->title }}" 
                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>

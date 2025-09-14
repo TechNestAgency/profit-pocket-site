@@ -60,7 +60,7 @@
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2">الصورة الحالية</label>
             <div class="w-32 h-32 rounded-lg overflow-hidden border border-gray-200">
-                <img src="{{ asset('storage/' . $service->image) }}" 
+                <img src="{{ asset($service->image) }}" 
                      alt="{{ $service->title }}" 
                      class="w-full h-full object-cover">
             </div>

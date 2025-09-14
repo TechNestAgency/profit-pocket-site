@@ -67,10 +67,10 @@
                 @foreach($recommendation->images as $image)
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <div class="aspect-w-16 aspect-h-12">
-                            <img src="{{ asset('storage/' . $image) }}" 
+                            <img src="{{ asset($image) }}" 
                                  alt="{{ $recommendation->title }}" 
                                  class="w-full h-64 object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
-                                 onclick="openImageModal('{{ asset('storage/' . $image) }}')">
+                                 onclick="openImageModal('{{ asset($image) }}')">
                         </div>
                     </div>
                 @endforeach

@@ -103,7 +103,7 @@
                     <div class="bg-gray-50 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         @if($related->category_image)
                             <div class="h-48 overflow-hidden">
-                                <img src="{{ asset('storage/' . $related->category_image) }}" 
+                                <img src="{{ asset($related->category_image) }}" 
                                      alt="{{ $related->title }}" 
                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>
