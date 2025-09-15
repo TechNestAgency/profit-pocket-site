@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         Setting::set('snapchat_url', 'https://snapchat.com/add/profitpocket', 'url', 'social', 'رابط سناب شات');
         Setting::set('youtube_url', 'https://youtube.com/@profitpocket', 'url', 'social', 'رابط يوتيوب');
         Setting::set('twitter_url', 'https://twitter.com/profitpocket', 'url', 'social', 'رابط تويتر');
+        Setting::set('tiktok_url', 'https://tiktok.com/@profitpocket', 'url', 'social', 'رابط تيك توك');
 
         // Seed Recommendations, Technical Indicators, Services, Experts, and Testimonials using dedicated seeders
         $this->call([
