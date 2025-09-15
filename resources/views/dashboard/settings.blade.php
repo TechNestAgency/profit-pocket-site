@@ -56,7 +56,7 @@
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">وصف الصفحة الرئيسية</label>
-                    <textarea rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">منصة متخصصة في التداول والاستثمار في الأسواق المالية مع توصيات حصرية ومؤشرات فنية متقدمة</textarea>
+                    <textarea rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500">البوصلة التي توجه المستثمر من ضبابية السوق إلى وضوح النتائج المضمونة</textarea>
                 </div>
                 
                 <div>

@@ -149,6 +149,16 @@
                         <span class="mr-3">إدارة الخبراء</span>
                     </a>
                     
+                    <a href="{{ route('dashboard.testimonials.index') }}" 
+                       class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 {{ request()->routeIs('dashboard.testimonials.*') ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard.testimonials.*') ? 'bg-white/20' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-colors duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <span class="mr-3">إدارة الشهادات</span>
+                    </a>
+                    
                     <a href="{{ route('dashboard.settings') }}" 
                        class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 {{ request()->routeIs('dashboard.settings') ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
                         <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard.settings') ? 'bg-white/20' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-colors duration-300">

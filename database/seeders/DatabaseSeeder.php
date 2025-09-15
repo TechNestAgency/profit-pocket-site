@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // Seed Settings
         Setting::set('site_name', 'Profit Pocket', 'text', 'general', 'اسم الموقع');
-        Setting::set('site_description', 'منصة متخصصة في التداول والاستثمار في الأسواق المالية مع توصيات حصرية ومؤشرات فنية متقدمة', 'textarea', 'general', 'وصف الموقع');
+        Setting::set('site_description', 'البوصلة التي توجه المستثمر من ضبابية السوق إلى وضوح النتائج المضمونة', 'textarea', 'general', 'وصف الموقع');
         Setting::set('contact_email', 'info@profitpocket.com', 'email', 'general', 'البريد الإلكتروني للتواصل');
         Setting::set('contact_phone', '+966501234567', 'text', 'general', 'رقم الهاتف');
         Setting::set('address', 'الرياض، المملكة العربية السعودية', 'text', 'general', 'العنوان');
@@ -28,12 +28,13 @@ class DatabaseSeeder extends Seeder
         Setting::set('youtube_url', 'https://youtube.com/@profitpocket', 'url', 'social', 'رابط يوتيوب');
         Setting::set('twitter_url', 'https://twitter.com/profitpocket', 'url', 'social', 'رابط تويتر');
 
-        // Seed Recommendations, Technical Indicators, Services, and Experts using dedicated seeders
+        // Seed Recommendations, Technical Indicators, Services, Experts, and Testimonials using dedicated seeders
         $this->call([
             RecommendationSeeder::class,
             TechnicalIndicatorSeeder::class,
             ServiceSeeder::class,
             ExpertSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Profit Pocket - منصة التداول والاستثمار')
-@section('description', 'منصة متخصصة في التداول والاستثمار في الأسواق المالية مع توصيات حصرية ومؤشرات فنية متقدمة')
+@section('description', 'البوصلة التي توجه المستثمر من ضبابية السوق إلى وضوح النتائج المضمونة')
 
 @section('content')
 <!-- Hero Section -->
@@ -48,9 +48,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">تحليلات متقدمة</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">تحليل احترافي 👨🏻‍💻</h3>
                 <p class="text-gray-600">
-                    تحليلات فنية وأساسية شاملة لجميع الأسواق المالية
+                    تحليل المشكله و دراسه الحل
                 </p>
             </div>
             
@@ -60,9 +60,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">أدوات متطورة</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">خطه مدروسة 💪🏻</h3>
                 <p class="text-gray-600">
-                    أدوات متطورة لتحسين قراراتك الاستثمارية
+                    وضع استراتيجية واضحة لحل المشكله
                 </p>
             </div>
             
@@ -72,9 +72,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">خبراء متخصصون</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">نتايج مضمونه ✅</h3>
                 <p class="text-gray-600">
-                    فريق من الخبراء المتخصصين في الأسواق المالية مع سنوات من الخبرة
+                    نتايج مضمونة لاستثمار آمن
                 </p>
             </div>
         </div>
@@ -183,65 +183,91 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                        <span class="text-primary-600 font-bold text-lg">أ</span>
+            @forelse($testimonials as $testimonial)
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        @if($testimonial->image)
+                            <div class="w-12 h-12 rounded-full overflow-hidden">
+                                <img src="{{ asset($testimonial->image) }}" 
+                                     alt="{{ $testimonial->name }}" 
+                                     class="w-full h-full object-cover">
+                            </div>
+                        @else
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-600 font-bold text-lg">{{ mb_substr($testimonial->name, 0, 1) }}</span>
+                            </div>
+                        @endif
+                        <div class="mr-3">
+                            <h4 class="font-semibold text-gray-900">{{ $testimonial->name }}</h4>
+                            <p class="text-sm text-gray-600">{{ $testimonial->position }}</p>
+                        </div>
                     </div>
-                    <div class="mr-3">
-                        <h4 class="font-semibold text-gray-900">أحمد محمد</h4>
-                        <p class="text-sm text-gray-600">مستثمر</p>
-                    </div>
+                    <p class="text-gray-700 text-sm">
+                        "{{ $testimonial->opinion }}"
+                    </p>
                 </div>
-                <p class="text-gray-700 text-sm">
-                    "خدمة ممتازة وتوصيات دقيقة ساعدتني في تحقيق أرباح جيدة"
-                </p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                        <span class="text-primary-600 font-bold text-lg">ف</span>
+            @empty
+                <!-- Fallback testimonials if none are available -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-600 font-bold text-lg">أ</span>
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-semibold text-gray-900">أحمد محمد</h4>
+                            <p class="text-sm text-gray-600">مستثمر</p>
+                        </div>
                     </div>
-                    <div class="mr-3">
-                        <h4 class="font-semibold text-gray-900">فاطمة علي</h4>
-                        <p class="text-sm text-gray-600">متداولة</p>
-                    </div>
+                    <p class="text-gray-700 text-sm">
+                        "خدمة ممتازة وتوصيات دقيقة ساعدتني في تحقيق أرباح جيدة"
+                    </p>
                 </div>
-                <p class="text-gray-700 text-sm">
-                    "التحليلات الفنية متقدمة جداً والنتائج مذهلة"
-                </p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                        <span class="text-primary-600 font-bold text-lg">م</span>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-600 font-bold text-lg">ف</span>
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-semibold text-gray-900">فاطمة علي</h4>
+                            <p class="text-sm text-gray-600">متداولة</p>
+                        </div>
                     </div>
-                    <div class="mr-3">
-                        <h4 class="font-semibold text-gray-900">محمد السعيد</h4>
-                        <p class="text-sm text-gray-600">مستثمر</p>
-                    </div>
+                    <p class="text-gray-700 text-sm">
+                        "التحليلات الفنية متقدمة جداً والنتائج مذهلة"
+                    </p>
                 </div>
-                <p class="text-gray-700 text-sm">
-                    "فريق الخبراء محترف جداً والتوصيات موثوقة"
-                </p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                        <span class="text-primary-600 font-bold text-lg">س</span>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-600 font-bold text-lg">م</span>
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-semibold text-gray-900">محمد السعيد</h4>
+                            <p class="text-sm text-gray-600">مستثمر</p>
+                        </div>
                     </div>
-                    <div class="mr-3">
-                        <h4 class="font-semibold text-gray-900">سارة أحمد</h4>
-                        <p class="text-sm text-gray-600">متداولة</p>
-                    </div>
+                    <p class="text-gray-700 text-sm">
+                        "فريق الخبراء محترف جداً والتوصيات موثوقة"
+                    </p>
                 </div>
-                <p class="text-gray-700 text-sm">
-                    "منصة رائعة وسهلة الاستخدام مع نتائج ممتازة"
-                </p>
-            </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-600 font-bold text-lg">س</span>
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-semibold text-gray-900">سارة أحمد</h4>
+                            <p class="text-sm text-gray-600">متداولة</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 text-sm">
+                        "منصة رائعة وسهلة الاستخدام مع نتائج ممتازة"
+                    </p>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>

@@ -11,6 +11,7 @@ use App\Http\Controllers\TechnicalIndicatorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\VideoSectionController;
+use App\Http\Controllers\TestimonialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,10 @@ Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services
 // Experts
 Route::get('/experts', [ExpertController::class, 'index'])->name('experts.index');
 Route::get('/experts/{id}', [ExpertController::class, 'show'])->name('experts.show');
+
+// Testimonials
+Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+Route::get('/testimonials/{id}', [TestimonialController::class, 'show'])->name('testimonials.show');
 
 // Authentication
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
@@ -106,4 +111,12 @@ Route::prefix('admin')->name('dashboard.')->group(function () {
     Route::get('/video-section/{id}/edit', [VideoSectionController::class, 'edit'])->name('video-section.edit');
     Route::put('/video-section/{id}', [VideoSectionController::class, 'update'])->name('video-section.update');
     Route::delete('/video-section/{id}', [VideoSectionController::class, 'destroy'])->name('video-section.destroy');
+    
+    // Testimonials Management
+    Route::get('/testimonials', [TestimonialController::class, 'dashboard'])->name('testimonials.index');
+    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+    Route::get('/testimonials/{id}/edit', [TestimonialController::class, 'edit'])->name('testimonials.edit');
+    Route::put('/testimonials/{id}', [TestimonialController::class, 'update'])->name('testimonials.update');
+    Route::delete('/testimonials/{id}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
 });
