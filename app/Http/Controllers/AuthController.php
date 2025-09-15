@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Setting;
 
 class AuthController extends Controller
 {
@@ -36,11 +37,23 @@ class AuthController extends Controller
         }
 
         // Fallback to predefined credentials for backward compatibility
-        if ($request->email === 'admin@profitpocket.com' && $request->password === 'admin123') {
-            Session::put('admin_logged_in', true);
-            Session::put('admin_email', $request->email);
-            Session::put('admin_name', 'Admin');
-            return redirect()->route('dashboard.index');
+        $fallbackEmail = Setting::get('admin_email', 'admin@profitpocket.com');
+        $fallbackPassword = Setting::get('admin_password');
+        
+        if ($request->email === $fallbackEmail) {
+            // Check if custom password is set
+            if ($fallbackPassword && Hash::check($request->password, $fallbackPassword)) {
+                Session::put('admin_logged_in', true);
+                Session::put('admin_email', $request->email);
+                Session::put('admin_name', 'Admin');
+                return redirect()->route('dashboard.index');
+            } elseif (!$fallbackPassword && $request->password === 'admin123') {
+                // Default password if no custom password is set
+                Session::put('admin_logged_in', true);
+                Session::put('admin_email', $request->email);
+                Session::put('admin_name', 'Admin');
+                return redirect()->route('dashboard.index');
+            }
         }
 
         return back()->withErrors([

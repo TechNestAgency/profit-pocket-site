@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\Setting;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -59,7 +61,44 @@ class DashboardController extends Controller
             'snapchat_url' => 'nullable|url|max:255',
             'youtube_url' => 'nullable|url|max:255',
             'twitter_url' => 'nullable|url|max:255',
+            'new_email' => 'nullable|email|max:255',
+            'new_password' => 'nullable|string|min:6|confirmed',
         ]);
+
+        // Handle admin account changes
+        if ($request->filled('new_email') || $request->filled('new_password')) {
+            $adminUserId = session('admin_user_id');
+            
+            if ($adminUserId) {
+                $user = User::find($adminUserId);
+                
+                if ($user) {
+                    // Update password if provided
+                    if ($request->filled('new_password')) {
+                        $user->password = Hash::make($request->new_password);
+                    }
+                    
+                    // Update email if provided
+                    if ($request->filled('new_email')) {
+                        $user->email = $request->new_email;
+                        session(['admin_email' => $request->new_email]);
+                    }
+                    
+                    $user->save();
+                }
+            } else {
+                // Handle fallback admin (no user in database)
+                if ($request->filled('new_password')) {
+                    // For fallback admin, we'll store the new password in settings
+                    Setting::set('admin_password', Hash::make($request->new_password));
+                }
+                
+                if ($request->filled('new_email')) {
+                    session(['admin_email' => $request->new_email]);
+                    Setting::set('admin_email', $request->new_email);
+                }
+            }
+        }
 
         Setting::setGroup('general', $request->only([
             'site_name', 'site_description', 'contact_email', 'contact_phone', 'address'

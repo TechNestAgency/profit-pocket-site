@@ -113,18 +113,17 @@
                     </button>
                 </form>
 
-                <!-- Demo Credentials -->
-                <div class="bg-primary-50 border border-primary-200 rounded-lg p-3">
+                <!-- Info Message -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
                     <div class="flex items-start">
-                        <svg class="w-4 h-4 text-primary-400 ml-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4 text-blue-400 ml-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                         </svg>
                         <div>
-                            <h4 class="text-xs font-medium text-primary-800 mb-1">بيانات الدخول التجريبية</h4>
-                            <div class="text-xs text-primary-700 space-y-0.5">
-                                <p><span class="font-medium">البريد:</span> admin@profitpocket.com</p>
-                                <p><span class="font-medium">كلمة المرور:</span> admin123</p>
-                            </div>
+                            <h4 class="text-xs font-medium text-blue-800 mb-1">لوحة التحكم</h4>
+                            <p class="text-xs text-blue-700">
+                                يمكنك تغيير إعدادات الحساب من صفحة الإعدادات بعد تسجيل الدخول
+                            </p>
                         </div>
                     </div>
                 </div>
